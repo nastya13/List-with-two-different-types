@@ -60,8 +60,11 @@ length_list list = 1 + length_list (next list)
 
 ------------------------------------------------------------------------------------
 
---dmap :: (a->c)List a b -> List c d
+dmap :: List a b -> (a -> c) -> (b -> d)-> List c d
+dmap LNil operA operB = LNil
+dmap (ElemA x next) operA operB = ElemA (operA x) (dmap next operA operB)
+dmap (ElemB x next) operA operB = ElemB (operB x) (dmap next operA operB)
 
 
 
-main = print (gen_list [1,2,3,4,5] ["aaa", "bbb", "ccc", "ddd", "eee"] )
+main = print (dmap (gen_list [1,2,3,4,5] ["aaa", "bbb", "ccc", "ddd", "eee"]) (2*) ("new"++))
